@@ -1,0 +1,34 @@
+c-info {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.c-info__icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: tomato;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    cursor: help;
+    &:hover {
+        ~ .c-info__content {
+            opacity: 1;
+        }
+    }
+}
+.c-info__content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px 15px;
+    min-width: 100px;
+    background-color: #fafafa;
+    box-shadow: 0 0 2px rgba(0,0,0,.2);
+    opacity: 0;
+    transition: opacity .2s;
+}
