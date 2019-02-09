@@ -1,4 +1,13 @@
-// Dependencies
+// Settings ====================================================
+
+// paths
+const srcPath = 'src/';
+const stylesPath = srcPath + 'styles/';
+const scriptsPath = srcPath + 'scripts/';
+const distPath = 'dist/';
+
+
+// Dependencies =================================================
 const log = require('fancy-log');
 const gulp = require('gulp');
 const path = require('path');
@@ -20,13 +29,6 @@ const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
-
-
-// Paths
-const srcPath = 'src/';
-const stylesPath = srcPath + 'styles/';
-const scriptsPath = srcPath + 'scripts/';
-const distPath = 'dist/';
 
 
 // Tasks =======================================================
