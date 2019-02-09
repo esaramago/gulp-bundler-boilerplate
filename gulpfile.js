@@ -139,7 +139,7 @@ gulp.task('watch', watch);
 // Production (gulp build) ======================================================
 gulp.task('build', gulp.series(
     'clean',
-    'html',
     'styles',
-    'scripts'
+    'scripts',
+    'html',
 ));

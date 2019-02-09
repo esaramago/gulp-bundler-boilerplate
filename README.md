@@ -3,7 +3,7 @@
 ## Features
 
 ### HTML minification with Gulp
-Just takes `index.html`, minifies it and puts it in `dist` folder.
+Takes `index.html`, minifies it and puts it in `dist` folder.
 
 ### SCSS compilation with Gulp
 Takes every `.scss` file and concats them in one file. Than minifies it and puts it in `dist` folder.  
