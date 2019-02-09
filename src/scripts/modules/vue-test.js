@@ -1,8 +1,3 @@
-import App from "./modules/app";
-//import VueApp from "./modules/vue-test";
-
-const app = new App();
-
 import Vue from 'vue';
 
 var VueApp = new Vue({
@@ -11,3 +6,5 @@ var VueApp = new Vue({
         message: 'Vue is available!'
     }
 });
+
+export default VueApp;

@@ -11,6 +11,7 @@ const distPath = 'dist/';
 const log = require('fancy-log');
 const gulp = require('gulp');
 const path = require('path');
+const fs = require('fs');
 const glob = require('glob');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
@@ -25,6 +26,7 @@ const sassGlob = require('gulp-sass-glob');
 const cssmin = require('gulp-cssmin');
 
 const browserify = require('browserify');
+const envify = require('envify/custom');
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -33,7 +35,13 @@ const uglify = require('gulp-uglify');
 // Tasks =======================================================
 
 const isProd = process.env.Node_ENV === 'production';
-log(process.env.Node_ENV);
+
+if (isProd) {
+    console.log('Running in production mode.')
+}
+else if (process.env.NODE_ENV === "development") {
+    console.warn('Running in DEVELOPMENT mode.')
+}
 
 // delete dist files and folders
 gulp.task('clean', function () {
@@ -67,7 +75,7 @@ function styles() {
         .pipe(cssmin())
         .pipe(rename({ suffix: '.min' }))
 
-        .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write(''))
 
         .pipe(gulp.dest(distPath));
 }
@@ -87,7 +95,14 @@ function scripts(cb) {
             return browserify({
                 entries: [entry] // entry
             })
-                .transform(babelify, { presets: ['@babel/env'] }) // configured also in package.json
+                .transform(
+                    babelify,
+                    { presets: ['@babel/env'] }, // configured also in package.json
+                )
+                .transform(
+                    { global: true },
+                    envify({ NODE_ENV: process.env.NODE_ENV })
+                )
                 .bundle()
                 .pipe(plumber())
                 .pipe(source(output)) // output
@@ -96,7 +111,9 @@ function scripts(cb) {
 
                 // minify
                 .pipe(sourcemaps.init({ loadMaps: true }))
-                .pipe(uglify())
+                .pipe(uglify({
+                    compress: { drop_debugger: isProd }
+                }))
                 .pipe(sourcemaps.write(''))
 
                 .pipe(gulp.dest(distPath))

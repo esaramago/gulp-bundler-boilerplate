@@ -1,4 +1,11 @@
-@import "01-settings/*.scss";
+@import "1-settings/*.scss";
+@import "2-tools/*.scss";
+@import "3-generic/*.scss";
+@import "4-elements/*.scss";
+@import "5-objects/*.scss";
+@import "6-components/*.scss";
+@import "../components/**/*.scss";
+@import "7-utilities/*.scss";
 
 body {
     color: $color-default;
