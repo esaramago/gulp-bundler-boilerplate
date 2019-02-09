@@ -30,8 +30,10 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const uglify = require('gulp-uglify');
 
-
 // Tasks =======================================================
+
+const isProd = process.env.Node_ENV === 'production';
+log(process.env.Node_ENV);
 
 // delete dist files and folders
 gulp.task('clean', function () {
@@ -42,27 +44,25 @@ gulp.task('clean', function () {
 
 // minify html
 function html() {
+
     return gulp.src(srcPath + 'index.html')
         .pipe(htmlmin({
-            collapseWhitespace: true,
-            removeComments: true
+            collapseWhitespace: isProd,
+            removeComments: isProd
         }))
         .pipe(gulp.dest(distPath));
 }
-gulp.task('html:dev', html);
-gulp.task('html:prd', html);
+gulp.task('html', html);
 
 // compile and minify sass
 function styles() {
-    return gulp.src(stylesPath + 'main.scss')
+    return gulp.src(stylesPath + '*.scss')
         .pipe(plumber())
 
         .pipe(sourcemaps.init())
 
         .pipe(sassGlob())
-        .pipe(sass({
-            style: 'compressed'
-        }).on('error', sass.logError))
+        .pipe(sass().on('error', sass.logError))
 
         .pipe(cssmin())
         .pipe(rename({ suffix: '.min' }))
@@ -71,8 +71,7 @@ function styles() {
 
         .pipe(gulp.dest(distPath));
 }
-gulp.task('styles:dev', styles);
-gulp.task('styles:prd', styles);
+gulp.task('styles', styles);
 
 
 // bundle and minify scripts
@@ -108,15 +107,14 @@ function scripts(cb) {
     cb(); // this makes the task return something and prevents the error "The following tasks did not complete: build, scripts; Did you forget to signal async completion?"
 
 }
-gulp.task('scripts:dev', scripts);
-gulp.task('scripts:prd', scripts);
+gulp.task('scripts', scripts);
 
 
 // Development (gulp watch) ======================================================
 function watch() {
-    gulp.watch(srcPath + 'index.html', gulp.series('html:dev'));
-    gulp.watch(stylesPath + '**/*.scss', gulp.series('styles:dev'));
-    gulp.watch(scriptsPath + '**/*.js', gulp.series('scripts:dev'));
+    gulp.watch(srcPath + 'index.html', gulp.series('html'));
+    gulp.watch(stylesPath + '**/*.scss', gulp.series('styles'));
+    gulp.watch(scriptsPath + '**/*.js', gulp.series('scripts'));
 }
 gulp.task('watch', watch);
 
@@ -124,7 +122,7 @@ gulp.task('watch', watch);
 // Production (gulp build) ======================================================
 gulp.task('build', gulp.series(
     'clean',
-    'html:prd',
-    'styles:prd',
-    'scripts:prd'
+    'html',
+    'styles',
+    'scripts'
 ));

@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "watch": "gulp watch",
-    "build": "gulp build"
+    "watch": "SET Node_ENV=development& gulp watch",
+    "build": "SET Node_ENV=production& gulp build"
   },
   "author": "esaramago",
   "license": "ISC",
