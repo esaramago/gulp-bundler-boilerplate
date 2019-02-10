@@ -14,6 +14,7 @@ c-info {
     font-weight: bold;
     font-style: italic;
     text-align: center;
+    line-height: 1.5;
     cursor: help;
     &:hover {
         ~ .c-info__content {
