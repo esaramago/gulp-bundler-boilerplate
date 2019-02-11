@@ -1,4 +1,4 @@
-# Gulp Bundler
+# Gulp Bundler Boilerplate
 
 ## Features
 
